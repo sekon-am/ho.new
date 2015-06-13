@@ -1,0 +1,17 @@
+.edit_icon{
+	position: absolute;
+	display: table;
+	width: 30px;
+	height: 20px;
+	background-color: red;
+	background-color: gray;
+}
+.edit-icon>div{
+	width: inherit;
+	height: inherit;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font: 10px 'DINPro-Regular' !important;
+	color: white !important;
+}
