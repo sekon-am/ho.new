@@ -13,8 +13,7 @@
  *
  * @package WordPress
  */
-
-if(file_exists('wp-config-local.php'))include_once('wp-config-local.php');
+include_once('wp-config-local.php');
 
 // ** Параметры MySQL: Эту информацию можно получить у вашего хостинг-провайдера ** //
 /** Имя базы данных для WordPress */
@@ -27,7 +26,8 @@ define('DB_USER', 'vh37047_ho');
 define('DB_PASSWORD', 'fczUV8BL');
 
 /** Имя сервера MySQL */
-define('DB_HOST', 'db01.hostline.ru');
+if(!file_exists('wp-config-local.php'))
+    define('DB_HOST', 'db01.hostline.ru');
 
 /** Кодировка базы данных для создания таблиц. */
 define('DB_CHARSET', 'utf8');

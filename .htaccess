@@ -20,33 +20,3 @@
     Header set Access-Control-Allow-Origin "*"
   </IfModule>
 </FilesMatch>
-
-
-# Hide console URL
-
-<IfModule mod_rewrite.c>
-
-	RewriteEngine On
-
-	RewriteRule ^wordpress_adminpanel/?$ /wp-login.php?4f45dsf4g7r9qcd [R,L]
-
-	RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in_.*$
-	RewriteRule ^wordpress_adminpanel/?$ /wp-login.php?4f45dsf4g7r9qcd&redirect_to=/wp-admin/ [R,L]
-
-	RewriteRule ^wordpress_adminpanel/?$ /wp-admin/?4f45dsf4g7r9qcd [R,L]
-
-	RewriteCond %{SCRIPT_FILENAME} !^(.*)admin-ajax\.php
-	RewriteCond %{HTTP_REFERER} !^(.*)homeocean.ru/wp-admin
-	RewriteCond %{HTTP_REFERER} !^(.*)homeocean.ru/wp-login\.php
-	RewriteCond %{HTTP_REFERER} !^(.*)homeocean.ru/wordpress_adminpanel
-	RewriteCond %{QUERY_STRING} !^4f45dsf4g7r9qcd
-	RewriteCond %{QUERY_STRING} !^action=logout
-	RewriteCond %{QUERY_STRING} !^action=rp
-	RewriteCond %{QUERY_STRING} !^action=postpass
-	RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in_.*$
-	RewriteRule ^.*wp-admin/?|^.*wp-login\.php /not_found [R,L]
-
-	RewriteCond %{QUERY_STRING} ^loggedout=true
-	RewriteRule ^.*$ /wp-login.php?4f45dsf4g7r9qcd [R,L]
-
-</IfModule>
