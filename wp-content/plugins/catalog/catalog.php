@@ -23,7 +23,8 @@ function hoc_install() {
     
     createtable('aquatypes',
         " id int(11) primary key auto_increment, "
-        . " aquatag varchar(50) not null,"
+        . " tag varchar(50) not null,"
+        . " name varchar(50) not null,"
         . " activefields varchar(256) not null");
     
     createtable('aquas',
@@ -65,5 +66,25 @@ function hoc_catalog() {
     wp_register_script('ctrl',plugins_url('/js/ctrl.js', __FILE__));
     wp_enqueue_script('ctrl');
     require_once(dirname(__FILE__) . '/aquaform.php');
+}
+
+add_action('init','hoc_init');
+function hoc_init() {
+    die(111111111);
+    if($srv = get_query_var('hocsrv')){
+        global $wpdb;
+        $res = array();
+        switch($srv){
+            case 'aquatypes':
+                $aquatypes = $wpdb->get_results("SELECT tag,name FROM aquatypes");
+                print_r($aquatypes);
+               break;
+            case '':
+               break;
+            default:
+        }
+        header('Content-Type: application/json');
+        die(json_encode( (object) $res ));
+    }
 }
 ?>
