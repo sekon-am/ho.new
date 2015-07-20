@@ -10,14 +10,22 @@ angular.module('hoc', ['ngFileUpload'])
             b:0,
             h:0,
             r:0,
-            D:0,
+            d:0,
             c:0,
-            aqua:0,
+            price:0,
             thumb:0,
             cap:0,
             decor:0,
             txt:'',
             img:'',
+        };
+        $scope.labels = {
+            a: 'Длина',
+            b: 'Ширина',
+            h: 'Высота',
+            r: 'Радиус',
+            d: 'Диаметр',
+            c: 'Выступ'
         };
         $scope.imgpreview = {
             url:'',
@@ -53,7 +61,6 @@ angular.module('hoc', ['ngFileUpload'])
                     url: 'index.php?hocsrv=aquaimgupload',
                     file: $scope.image
                 }).success(function (data) {
-                    console.log(data);
                     $scope.eaqua.img = data.file;
                     $scope.imgpreview.url = data.url;
                 });

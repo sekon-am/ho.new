@@ -2,8 +2,22 @@
     background: #F8F8F8;
     border: 5px dashed #DDD;
     width: 200px;
-    height: 65px;
+    height: 80px;
     text-align: center;
-    padding-top: 25px;
+    padding-top: 15px;
     margin: 10px;
+}
+.aqua-input{
+    float:left;
+    width:100px;
+    margin-right:10px;
+}
+.aqua-type label {
+    margin-right: 20px;
+}
+.aqua-type input {
+    margin-top:0;
+}
+.aqua-txt{
+    clear:both;
 }
