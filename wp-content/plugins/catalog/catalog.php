@@ -3,8 +3,8 @@
 Plugin Name: Homeocean catalog
 Plugin URI: http://homeocean.ru
 Description: Plugin to provide homeocean with a pages for Yandex catalog
-Version: Номер версии плагина, например: 1.0
-Author: Sekon
+Version: 1.3
+Author: Sekon.am.p
 Author URI: http://homeocean.ru
 */
 
@@ -36,7 +36,7 @@ function hoc_install() {
         . " d int(11),"
         . " h int(11),"
         . " r int(11),"
-        . " aqua decimal(10,2),"
+        . " price decimal(10,2),"
         . " thumb decimal(10,2),"
         . " cap decimal(10,2),"
         . " decor decimal(10,2),"
@@ -62,11 +62,15 @@ function hoc_menu() {
 }
 function hoc_catalog() {
     hoc_add_style('bootstrap','/css/bootstrap.min.css');
+    hoc_add_style('bootstrap-spinedit-style','/css/bootstrap-spinedit.css');
     hoc_add_style('hoc_style','/css/style.css');
+    hoc_add_script('jquery','/js/jquery.min.js');
     hoc_add_script('angular','/js/angular.min.js');
     hoc_add_script('ng-file-upload-shim','/js/ng-file-upload-shim.js');
     hoc_add_script('ng-file-upload','/js/ng-file-upload.js');
+    hoc_add_script('bootstrap-spinedit-js','/js/bootstrap-spinedit.js');
     hoc_add_script('ctrl','/js/ctrl.js');
+    hoc_add_script('script','/js/script.js');
     require_once(dirname(__FILE__) . '/aquaform.php');
 }
 function hoc_add_script($name,$localpath)  {
@@ -110,7 +114,7 @@ function hoc_init() {
                     $res->result = 'ok';
                     $res->file = substr(
                         $movefile['file'],
-                        strlen( get_home_path() . 'wp-content/uploads/' )
+                        strlen( get_home_path() . 'wp-content/uploads/' )+8
                     );
                     $res->url = $movefile['url'];
                 } else {
