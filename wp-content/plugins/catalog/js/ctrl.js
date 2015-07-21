@@ -4,21 +4,6 @@ angular.module('hoc', ['ngFileUpload'])
         $scope.aquaprototype = {};
         $scope.aquas = {};
         $scope.aquatype = { value: '' };
-        $scope.eaqua = {
-            name:'',
-            a:0,
-            b:0,
-            h:0,
-            r:0,
-            d:0,
-            c:0,
-            price:0,
-            thumb:0,
-            cap:0,
-            decor:0,
-            txt:'',
-            img:'',
-        };
         $scope.labels = {
             a: 'Длина',
             b: 'Ширина',
@@ -30,15 +15,25 @@ angular.module('hoc', ['ngFileUpload'])
         $scope.imgpreview = {
             url:'',
         }
-        
-        $http.get('index.php?hocsrv=aquatypes').success(
-            function(data){
-                $scope.aquatypes = data;
-                $scope.aquatype.value = 'common';
-                getSizes();
-            }
-        );
 
+        function emptyAqua() {
+            return {
+                id:0,
+                name:'',
+                a:0,
+                b:0,
+                h:0,
+                r:0,
+                d:0,
+                c:0,
+                price:0,
+                thumb:0,
+                cap:0,
+                decor:0,
+                txt:'',
+                img:'',
+            };
+        }
         function getSizes() {
             $http.get('index.php?hocsrv=aquasizes&aquatype=' + $scope.aquatype.value).success(
                 function(data){
@@ -53,7 +48,17 @@ angular.module('hoc', ['ngFileUpload'])
             
         }
         $scope.add = function() {
-            
+            $scope.eaqua = emptyAqua();
+        }
+        $scope.save = function() {
+            $http.post('index.php?hocsrv=save',{
+                aqua: $scope.eaqua, 
+                type: $scope.aquatype.value
+            }).success(function (data) {
+                if(data.result=='ok'){
+                    getSizes();
+                }
+            });
         }
         $scope.$watch('image', function () {
             if ($scope.image) {
@@ -66,4 +71,14 @@ angular.module('hoc', ['ngFileUpload'])
                 });
             }
         });
+
+        $scope.eaqua = emptyAqua();
+        $http.get('index.php?hocsrv=aquatypes').success(
+            function(data){
+                $scope.aquatypes = data;
+                $scope.aquatype.value = 1;
+                getSizes();
+                console.log($scope.aquatypes);
+            }
+        );
     }]);

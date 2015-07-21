@@ -1,10 +1,9 @@
 .drop-box {
     background: #F8F8F8;
     border: 5px dashed #DDD;
-    width: 200px;
-    height: 80px;
+    width: 400px;
     text-align: center;
-    padding-top: 15px;
+    padding: 15px 0;
     margin: 10px;
 }
 .aqua-input{
@@ -18,6 +17,18 @@
 .aqua-type input {
     margin-top:0;
 }
-.aqua-txt{
-    clear:both;
+.clear-fix{
+    clear:left;
+}
+.upload-image{
+    float:right;
+}
+.aqua-txt {
+    margin-right:420px;
+}
+.aqua-txt textarea {
+    height:250px;
+}
+.btn-container{
+    text-align:center;
 }

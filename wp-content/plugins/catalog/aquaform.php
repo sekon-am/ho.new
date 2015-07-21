@@ -3,7 +3,7 @@
     <h2>Выбор формы аквариума</h2>
     <div class="aqua-type">
         <label ng-repeat="atp in aquatypes">
-            <input type="radio" ng-model="aquatype.value" value="{{atp.tag}}" ng-change="getsizes()">{{atp.name}}
+            <input type="radio" ng-model="aquatype.value" value="{{atp.id}}" ng-change="getsizes()">{{atp.name}}
         </label>
     </div>
     <h2>Таблица размеров</h2>
@@ -39,17 +39,23 @@
                 <td>{{aqua.cap}}</td>
                 <td>{{aqua.decor}}</td>
                 <td>{{aqua.aqua+aqua.thumb+aqua.cap+aqua.decor}}</td>
-                <td class="button">
+                <td>
                     <button class="btn btn-warning" ng-click="edit(aqua.id)">Редактировать</button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="button">
+    <div class="btn-container">
         <button class="btn btn-primary" ng-click="add()">Добавить</button>
     </div>
     <div id="aquadetails">
         <h2>Добавить/редакрировать аквариум</h2>
+        <div class="upload-image">
+            <div ngf-drop ngf-select ng-model="image" class="drop-box" ngf-drag-over-class="dragover" accept="image/*">
+                <img src="{{imgpreview.url}}" ng-if="imgpreview.url">
+                <span ng-if="! imgpreview.url">Drop image here or click to upload</span>
+            </div>
+        </div>
         <div class="aqua-input form-group" ng-repeat="dim in ['a','b','h','r','d','c']" ng-if="aquaprototype[dim]">
             <label for="aqua-input-{{dim}}">{{labels[dim]}}</label>
             <input class="form-control" type="number" min="0" ng-model="eaqua[dim]"/>
@@ -70,13 +76,13 @@
             <label for="aqua-input-price">Цена</label>
             <input class="form-control" type="number" min="0" ng-model="eaqua.price"/>
         </div>
-        <div class="form-group">
-            <label for="aqua-txt">Comment:</label>
-            <textarea class="form-control" id="aqua-txt"></textarea>
+        <div class="clear-fix"></div>
+        <div class="form-group aqua-txt">
+            <label for="aqua-txt">Текст:</label>
+            <textarea class="form-control" id="aqua-txt" ng-model="eaqua.txt"></textarea>
         </div>
-        <div class="upload-image">
-            <img src="{{imgpreview.url}}" ng-if="imgpreview.url">
-            <div ngf-drop ngf-select ng-model="image" class="drop-box" ngf-drag-over-class="dragover" accept="image/*">Drop image here or click to upload</div>
+        <div class="btn-container">
+            <button class="btn btn-primary" ng-click="save()">Сохранить</button>
         </div>
     </div>
 </form>

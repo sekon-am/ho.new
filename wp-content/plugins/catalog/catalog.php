@@ -41,8 +41,8 @@ function hoc_install() {
         . " cap decimal(10,2),"
         . " decor decimal(10,2),"
         . " txt text,"
-        . " aquatype_id int(11) not null,"
-        . " img varchar(255) default ''");
+        . " img varchar(255) default '',"
+        . " aquatype_id int(11) not null");
     
 }
 
@@ -92,11 +92,11 @@ function hoc_init() {
         $res = new stdClass();
         switch($srv){
             case 'aquatypes':
-                $res = $wpdb->get_results("SELECT tag,name FROM {$wpdb->prefix}aquatypes");
+                $res = $wpdb->get_results("SELECT id,name FROM {$wpdb->prefix}aquatypes");
                break;
             case 'aquasizes':
-                if($tag = esc('aquatype')){
-                    $aquatype = $wpdb->get_row("SELECT id,activefields FROM {$wpdb->prefix}aquatypes WHERE tag='{$tag}'");
+                if($id = esc('aquatype')){
+                    $aquatype = $wpdb->get_row("SELECT id,activefields FROM {$wpdb->prefix}aquatypes WHERE id='{$id}'");
                     $res->aquaprototype = new stdClass();
                     foreach(explode(',',$aquatype->activefields) as $field){
                         $res->aquaprototype->$field = 1; 
@@ -120,7 +120,50 @@ function hoc_init() {
                 } else {
                     $res->result = 'fail';
                 }
-               break;
+                break;
+            case 'save':
+                $params = json_decode(file_get_contents('php://input'),true);
+                $aqua = $params['aqua'];
+                $aqua['aquatype_id'] = $params['type'];
+                $res->result = 'fail';
+                
+                foreach($aqua as $key => $val){
+                    $aqua[$key] = addslashes($val);
+                }
+                
+                //$fields = array('aquatype_id','name','a','b','c','d','h','r','price','thumb','cap','decor','txt','img');
+                if($aqua['id']){
+                    if($rows_amount = $wpdb->update('aquas',$aqua,array('id'=>$aqua['id']))){
+                        $res->result = 'ok';
+                        $res->rows_amount = $rows_amount;
+                    }
+                    /*function setVals($array,$keys) {
+                        $arr = array();
+                        foreach($keys as $key){
+                            $arr[$key] = $key . "='" . array_key_exists($key, $array) ? $array[$key] : '' . "'";
+                        }
+                        return $arr;
+                    }
+                    $sql = "UPDATE {$wpdb->prefix}aquas SET " . implode(',', setVals($aqua,$fields)) . " WHERE id='{$aqua['id']}'";*/
+                }else{
+                    unset($aqua['id']);
+                    print_r($aqua);
+                    if($wpdb->insert('wp_aquas',$aqua)){
+                        $res->result = 'ok';
+                        $res->insert_id = $wpdb->insert_id;
+                    }
+                    /*function getVals($array,$keys) {
+                        $arr = array();
+                        foreach($keys as $key){
+                            $arr[$key] = array_key_exists($key, $array) ? $array[$key] : '';
+                        }
+                        return $arr;
+                    }
+                    $sql = "INSERT INTO {$wpdb->prefix}aquas (" . 
+                            implode(',', $fields) . ") VALUES ('" . 
+                            implode("','", getVals($aqua,$fields) ) . "')";*/
+                }
+                break;
             default:
         }
         header('Content-Type: application/json; charset=utf-8');
