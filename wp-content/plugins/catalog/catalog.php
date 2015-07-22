@@ -10,6 +10,7 @@ Author URI: http://homeocean.ru
 
 register_activation_hook(__FILE__,'hoc_install');
 function hoc_install() {
+    global $wpdb;
     
     function createtable($name,$fields) {
         global $wpdb;
@@ -27,6 +28,42 @@ function hoc_install() {
         . " name varchar(50) not null,"
         . " activefields varchar(256) not null");
     
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'common',
+        'name' => 'Стандарт',
+        'activefields' => 'a,b,h',
+    ));
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'commonplus',
+        'name' => 'Стандарт Плюс',
+        'activefields' => 'a,b,h,r',
+    ));
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'cylinder',
+        'name' => 'Цилиндр',
+        'activefields' => 'd,h',
+    ));
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'semicylijndr',
+        'name' => 'Полуцелдиндр',
+        'activefields' => 'a,b,h',
+    ));
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'arc',
+        'name' => 'Арка',
+        'activefields' => 'a,b,h',
+    ));
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'segment',
+        'name' => 'Сегмент',
+        'activefields' => 'a,b,h,r',
+    ));
+    $wpdb->insert($wpdb->prefix . 'aquatypes',array(
+        'tag' => 'mix',
+        'name' => 'Микс',
+        'activefields' => 'a,b,h,r',
+    ));
+        
     createtable('aquas',
         " id int(11) primary key auto_increment, "
         . " name varchar(500) not null,"
@@ -148,7 +185,7 @@ function hoc_init() {
                 }else{
                     unset($aqua['id']);
                     print_r($aqua);
-                    if($wpdb->insert('wp_aquas',$aqua)){
+                    if($wpdb->insert('aquas',$aqua)){
                         $res->result = 'ok';
                         $res->insert_id = $wpdb->insert_id;
                     }

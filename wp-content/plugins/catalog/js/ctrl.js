@@ -78,7 +78,6 @@ angular.module('hoc', ['ngFileUpload'])
                 $scope.aquatypes = data;
                 $scope.aquatype.value = 1;
                 getSizes();
-                console.log($scope.aquatypes);
             }
         );
     }]);
