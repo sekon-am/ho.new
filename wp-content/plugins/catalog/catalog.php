@@ -161,7 +161,7 @@ function hoc_init() {
                     $res->result = 'ok';
                     $res->file = substr(
                         $movefile['file'],
-                        strlen( get_home_path() . 'wp-content/uploads/' )+8
+                        strlen( get_home_path() . 'wp-content/uploads/' )
                     );
                     $res->url = $movefile['url'];
                 } else {
@@ -207,6 +207,10 @@ function hoc_init() {
                 }else{
                     $res->errors = array('Неверно указан идентификатор аквариума');
                 }
+                break;
+            case 'uploadspath':
+                $upload_dirs = wp_upload_dir();
+                $res->uploadspath = $upload_dirs['baseurl'] .'/';
                 break;
             default:
         }

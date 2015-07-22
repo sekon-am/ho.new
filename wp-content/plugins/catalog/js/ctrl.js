@@ -51,6 +51,7 @@ angular.module('hoc', ['ngFileUpload'])
         };
         $scope.edit = function(num) {
             $scope.eaqua = $scope.aquas[num];
+            $scope.imgpreview.url = $scope.upload_url + $scope.eaqua.img;
             jQuery('#aquadetails').show();
         };
         $scope.remove = function(num) {
@@ -91,6 +92,11 @@ angular.module('hoc', ['ngFileUpload'])
         });
 
         $scope.eaqua = emptyAqua();
+        $http.get('index.php?hocsrv=uploadspath').success(
+            function(data){
+                $scope.upload_url = data.uploadspath;
+            }
+        );
         $http.get('index.php?hocsrv=aquatypes').success(
             function(data){
                 $scope.aquatypes = data;
