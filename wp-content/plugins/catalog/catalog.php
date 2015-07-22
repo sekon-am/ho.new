@@ -105,7 +105,7 @@ function hoc_catalog() {
     hoc_add_script('angular','/js/angular.min.js');
     hoc_add_script('ng-file-upload-shim','/js/ng-file-upload-shim.js');
     hoc_add_script('ng-file-upload','/js/ng-file-upload.js');
-    hoc_add_script('bootstrap-spinedit-js','/js/bootstrap-spinedit.js');
+    hoc_add_script('jquery','/js/jquery-1.11.3.min.js');
     hoc_add_script('ctrl','/js/ctrl.js');
     hoc_add_script('script','/js/script.js');
     require_once(dirname(__FILE__) . '/aquaform.php');
@@ -139,6 +139,16 @@ function hoc_init() {
                         $res->aquaprototype->$field = 1; 
                     }
                     $res->aquas = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}aquas WHERE aquatype_id='{$aquatype->id}'");
+                    foreach( $res->aquas as $aquaid => $aqua ){
+                        foreach( $aqua as $key => $val ){
+                            if(in_array($key, array('a','b','c','d','h','r',))){
+                                $res->aquas[$aquaid]->$key = intval($val);
+                            }
+                            if(in_array($key, array('price','thumb','cap','decor',))){
+                                $res->aquas[$aquaid]->$key = floatval($val);
+                            }
+                        }
+                    }
                 }
                break;
             case 'aquaimgupload':
@@ -168,37 +178,34 @@ function hoc_init() {
                     $aqua[$key] = addslashes($val);
                 }
                 
-                //$fields = array('aquatype_id','name','a','b','c','d','h','r','price','thumb','cap','decor','txt','img');
                 if($aqua['id']){
-                    if($rows_amount = $wpdb->update('aquas',$aqua,array('id'=>$aqua['id']))){
+                    if($num_rows = $wpdb->update(
+                        $wpdb->prefix . 'aquas',
+                        $aqua,
+                        array('id'=>$aqua['id'])
+                    )){
                         $res->result = 'ok';
-                        $res->rows_amount = $rows_amount;
+                        $res->num_rows = $num_rows;
                     }
-                    /*function setVals($array,$keys) {
-                        $arr = array();
-                        foreach($keys as $key){
-                            $arr[$key] = $key . "='" . array_key_exists($key, $array) ? $array[$key] : '' . "'";
-                        }
-                        return $arr;
-                    }
-                    $sql = "UPDATE {$wpdb->prefix}aquas SET " . implode(',', setVals($aqua,$fields)) . " WHERE id='{$aqua['id']}'";*/
                 }else{
                     unset($aqua['id']);
-                    print_r($aqua);
-                    if($wpdb->insert('aquas',$aqua)){
+                    if($wpdb->insert($wpdb->prefix . 'aquas',$aqua)){
                         $res->result = 'ok';
                         $res->insert_id = $wpdb->insert_id;
                     }
-                    /*function getVals($array,$keys) {
-                        $arr = array();
-                        foreach($keys as $key){
-                            $arr[$key] = array_key_exists($key, $array) ? $array[$key] : '';
-                        }
-                        return $arr;
+                }
+                break;
+            case 'rmaqua':
+                $res->result = 'fail';
+                if($id = esc('id')){
+                    if($num_rows = $wpdb->delete($wpdb->prefix . 'aquas', array(
+                        'id' => $id,
+                    ))) {
+                        $res->result = 'ok';
+                        $res->num_rows = $num_rows;
                     }
-                    $sql = "INSERT INTO {$wpdb->prefix}aquas (" . 
-                            implode(',', $fields) . ") VALUES ('" . 
-                            implode("','", getVals($aqua,$fields) ) . "')";*/
+                }else{
+                    $res->errors = array('Неверно указан идентификатор аквариума');
                 }
                 break;
             default:

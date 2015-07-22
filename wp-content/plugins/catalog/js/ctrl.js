@@ -1,8 +1,8 @@
 angular.module('hoc', ['ngFileUpload'])
     .controller('AquaCatalog',['$scope','$http','Upload',function($scope,$http,Upload){
-        $scope.aquatypes = {};
+        $scope.aquatypes = [];
         $scope.aquaprototype = {};
-        $scope.aquas = {};
+        $scope.aquas = [];
         $scope.aquatype = { value: '' };
         $scope.labels = {
             a: 'Длина',
@@ -39,17 +39,32 @@ angular.module('hoc', ['ngFileUpload'])
                 function(data){
                     $scope.aquaprototype = data.aquaprototype;
                     $scope.aquas = data.aquas;
+                    jQuery('#aquadetails').hide();
                 }
             );
         }
         
         $scope.getsizes = getSizes;
-        $scope.edit = function(id) {
-            
-        }
         $scope.add = function() {
             $scope.eaqua = emptyAqua();
-        }
+            jQuery('#aquadetails').show();
+        };
+        $scope.edit = function(num) {
+            $scope.eaqua = $scope.aquas[num];
+            jQuery('#aquadetails').show();
+        };
+        $scope.remove = function(num) {
+            if(confirm("Вы уверены что хотите удалить аквариум " + $scope.aquas[num].name + "?")){
+                $http.get("index.php?hocsrv=rmaqua&id=" + $scope.aquas[num].id).success(function (data){
+                    if(data.result == 'ok'){
+                        $scope.aquas.splice(num,1);
+                        jQuery('#aquadetails').hide();
+                    }else{
+                        $scope.errors = data.errors;
+                    }
+                });
+            }
+        };
         $scope.save = function() {
             $http.post('index.php?hocsrv=save',{
                 aqua: $scope.eaqua, 
@@ -57,9 +72,12 @@ angular.module('hoc', ['ngFileUpload'])
             }).success(function (data) {
                 if(data.result=='ok'){
                     getSizes();
+                    jQuery('#aquadetails').hide();
+                }else{
+                    $scope.errors = data.errors;
                 }
             });
-        }
+        };
         $scope.$watch('image', function () {
             if ($scope.image) {
                 Upload.upload({

@@ -32,3 +32,10 @@
 .btn-container{
     text-align:center;
 }
+td .glyphicon {
+    cursor:pointer;
+}
+h2 .btn-primary {
+    float:right;
+    margin-right:5px;
+}
