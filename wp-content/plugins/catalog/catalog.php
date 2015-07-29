@@ -219,6 +219,17 @@ function hoc_init() {
     }
 }
 
+/*add_action('init', 'hoc_add_catalog_page');
+function hoc_add_catalog_page() {
+    add_rewrite_rule('catalog/(.*)', 'index.php?pagename=catalog&r=$matches[1]', 'top');
+}
+
+add_filter( 'query_vars', 'hoc_query_vars' );
+function hoc_query_vars( $query_vars ){
+    $query_vars[] = 'r';
+    return $query_vars;
+}*/
+
 function putlog($msg) {
     file_put_contents('log.txt',$msg."\n",FILE_APPEND);
 }

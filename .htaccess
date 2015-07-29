@@ -5,6 +5,8 @@
 	RewriteEngine On
 	RewriteBase /
 	RewriteRule ^index\.php$ - [L]
+        RewriteRule ^catalog/(.*)$ index.php?pagename=catalog&r=$1 [L]
+        RewriteRule ^catalog$ catalog/ [L,R]
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule "^(.*)$" "index.php" [NC,L]
