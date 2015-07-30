@@ -123,32 +123,50 @@ add_action('plugins_loaded','hoc_init');
 function esc($name) {
     return addslashes($_REQUEST[$name]);
 }
+function hoc_get_aquatypes() {
+    global $wpdb;
+    return $wpdb->get_results("SELECT id,name FROM {$wpdb->prefix}aquatypes");
+}
+function hoc_norm_aqua($aqua) {
+    foreach( $aqua as $key => $val ){
+        if(in_array($key, array('a','b','c','d','h','r',))){
+            $res->aquas[$aquaid]->$key = intval($val);
+        }
+        if(in_array($key, array('price','thumb','cap','decor',))){
+            $res->aquas[$aquaid]->$key = floatval($val);
+        }
+    }
+    return $aqua;
+}
+function hoc_get_aquasizes($aqutype_id) {
+    global $wpdb;
+    $res = new stdClass();
+    $aquatype = $wpdb->get_row("SELECT id,activefields FROM {$wpdb->prefix}aquatypes WHERE id='{$aquatype_id}'");
+    $res->aquaprototype = new stdClass();
+    foreach(explode(',',$aquatype->activefields) as $field){
+        $res->aquaprototype->$field = 1; 
+    }
+    $res->aquas = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}aquas WHERE aquatype_id='{$aquatype->id}'");
+    foreach( $res->aquas as $aquaid => $aqua ){
+        $res->aquas[$aquaid] = hoc_norm_aqua($aqua);
+    }
+    return $res;
+}
+function hoc_get_aquasize($id) {
+    global $wpdb;
+    return hoc_norm_aqua( $wpdb->get_row("SELECT * FROM {$wpdb->prefix}aquas WHERE id='{$id}'") );
+}
 function hoc_init() {
     if($srv = esc('hocsrv')){
         global $wpdb;
         $res = new stdClass();
         switch($srv){
             case 'aquatypes':
-                $res = $wpdb->get_results("SELECT id,name FROM {$wpdb->prefix}aquatypes");
+                $res = hoc_get_aquatypes();
                break;
             case 'aquasizes':
                 if($id = esc('aquatype')){
-                    $aquatype = $wpdb->get_row("SELECT id,activefields FROM {$wpdb->prefix}aquatypes WHERE id='{$id}'");
-                    $res->aquaprototype = new stdClass();
-                    foreach(explode(',',$aquatype->activefields) as $field){
-                        $res->aquaprototype->$field = 1; 
-                    }
-                    $res->aquas = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}aquas WHERE aquatype_id='{$aquatype->id}'");
-                    foreach( $res->aquas as $aquaid => $aqua ){
-                        foreach( $aqua as $key => $val ){
-                            if(in_array($key, array('a','b','c','d','h','r',))){
-                                $res->aquas[$aquaid]->$key = intval($val);
-                            }
-                            if(in_array($key, array('price','thumb','cap','decor',))){
-                                $res->aquas[$aquaid]->$key = floatval($val);
-                            }
-                        }
-                    }
+                    $res = hoc_get_aquasizes($id);
                 }
                break;
             case 'aquaimgupload':

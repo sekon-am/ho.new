@@ -5,8 +5,11 @@
 	RewriteEngine On
 	RewriteBase /
 	RewriteRule ^index\.php$ - [L]
-        RewriteRule ^catalog/(.*)$ index.php?pagename=catalog&r=$1 [L]
         RewriteRule ^catalog$ catalog/ [L,R]
+        RewriteRule ^catalog(.*)/+$ catalog$1
+        RewriteRule ^catalog/(\d*)/(\d*)$ index.php?pagename=catalog&aquatype=$1&aqua=$2 [L]
+        RewriteRule ^catalog/(\d*)$ index.php?pagename=catalog&r=$1 [L]
+        RewriteRule ^catalog.*$ index.php?pagename=catalog [L]
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule "^(.*)$" "index.php" [NC,L]

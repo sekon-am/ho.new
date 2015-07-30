@@ -1,8 +1,14 @@
+<?php
+$aquatypes = hoc_get_aquatypes();
+$aquatype_id = get_query_var('aquatype') or $aquatype_id = $aquatypes[0]->id;
+$aquasizes = hoc_get_aquasizes($aquatype_id);
+$aqua_id = get_query_var('aqua');
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title><?php bloginfo('name'); ?></title>
+	<title><?php echo $title; ?></title>
 	<meta name="description" content="<?php bloginfo('description'); ?>" />
 	<meta name="keywords" content="продажа морских аквариумов, самые большие аквариумы, самый большой аквариум, аквариум полукруглый, морской аквариум купить, изготовление аквариумов +из оргстекла, аквариумы +из акрилового стекла, аквариум +из оргстекла купить, большой аквариум купить, стоимость морского аквариума, большие аквариумы купить, большие аквариумы +в москве, изготовление акриловых аквариумов, акриловый аквариум купить, аквариум большой цена, аквариумы большие цены, морской аквариум +на заказ, цилиндрический аквариум -цена -купить, большой аквариум -самый -цена -купить, аквариум закругленный, аквариум цилиндрический цена, аквариум +из оргстекла -изготовление -купить, купить цилиндрический аквариум, аквариум +с гнутым стеклом, аквариумы большие -самый -цена -купить, аквариум +из оргстекла +на заказ, морской аквариум -продажа -стоимость -купить, аквариум акриловый +на заказ" />
 	<meta name="google-site-verification" content="yMNkN_Q8QtP9IcVyCAJg9NiMBUWfzzUp2AqdMQ_fGfk" />
@@ -49,7 +55,20 @@
 
         <div class="catalog-content">
 
+            <h1><?php echo $title; ?></h1>
             
+            <div class="aquatypes-select">
+<?php foreach($aquatypes as $aquatype): ?>
+                <div class="aquatype-item<?php if($aquatype->id == $aquatype_id):?> active<?php endif; ?>">
+                    <figure>
+                        <a href="<?php echo site_url('catalog/'.$aquatype->id); ?>" title="<?php echo $aquatype->name; ?>">
+                            <img src="<?php echo $aquatypeImgs[$aquatype->id]; ?>" alt="<?php echo $aquatype->name; ?>">
+                            <span><?php echo $aquatype->name; ?></span>
+                        </a>
+                    </figure>
+                </div>
+<?php endforeach; ?>
+            </div>
 
         </div>
 
