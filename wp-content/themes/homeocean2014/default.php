@@ -53,8 +53,9 @@ get_template_part('slide4');
 get_template_part('slide5');
 get_template_part('slide6');
 get_template_part('slide7');
+?>
 
-wp_footer(); ?>
+    <?php wp_footer(); ?>
 	
 </body>
 </html>

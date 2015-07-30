@@ -27,12 +27,7 @@
 		}
 		wp_enqueue_script('mjquery',get_template_directory_uri().'/js/jquery-2.1.1.min.js');
 		wp_enqueue_script('mjquery_ui',get_template_directory_uri().'/js/jquery-ui.min.js');
-    	wp_enqueue_script('transform',get_template_directory_uri().'/js/jquery.transform.js');
+                wp_enqueue_script('transform',get_template_directory_uri().'/js/jquery.transform.js');
 		wp_enqueue_script('ammo',get_template_directory_uri().'/js/jquery.ammo.js');
-		wp_enqueue_script('mobj',get_template_directory_uri().'/js/jquery.mobj.js');
-    	wp_enqueue_script('carousel',get_template_directory_uri().'/js/jquery.waterwheelCarousel.js');
-    	wp_enqueue_script('wsc',get_template_directory_uri().'/js/wsc.js');
-    	wp_enqueue_script('hoslider',get_template_directory_uri().'/js/hoslider.js');
-		wp_enqueue_script('script',get_template_directory_uri().'/js/script.js');
 	}
 ?>

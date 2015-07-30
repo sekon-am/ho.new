@@ -12,11 +12,6 @@
 </head>
 <body>
     
-    <div id="loading-screen">
-        <img id="loading" src="<?php bloginfo('template_url'); ?>/images/loading.gif"/>
-        <img id="ho-logo-loading" src="<?php bloginfo('template_url'); ?>/images/ho-logo-loading.png"/>
-    </div>
-    
     <div id="menu-container">
 
         <div id="menu-social-icons">
@@ -38,6 +33,27 @@
             <a href="<?php echo home_url(); ?>#slide-7" class="menu-item" id="menu-7"><div class="hover"></div></a>
         </div>
 
+    </div>
+    
+    <div id="catalog">
+
+        <img id="s7-fish_yb_small" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_yb_small.png"/>
+        <img id="s7-fish_yellow_01" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_yellow_01.png"/>
+        <img id="s7-fish_orange_01" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_orange_01.png"/>
+        <img id="s7-fish_yellow_02" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_yellow_02.png"/>
+        <img id="s7-fish_orange_02" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_orange_02.png"/>
+        <img id="s7-fish_orange_03" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_orange_03.png"/>
+        <img id="s7-fish_yb" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_yb.png"/>
+        <img id="s7-fish_bw" class="objcenter" src="<?php bloginfo('template_url'); ?>/images/slide-1/fish_bw.png"/>
+
+
+        <div class="catalog-content">
+
+            
+
+        </div>
+
+        <?php get_template_part('hfooter'); ?>
     </div>
     
 <?php wp_footer(); ?>
